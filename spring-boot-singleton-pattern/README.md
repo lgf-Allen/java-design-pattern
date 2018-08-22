@@ -1,8 +1,19 @@
 # Singleton Pattern
 ## 1 饥汉模式
 > 全局的单例实例在类装载时创建
+
 ## 2 懒汉模式
 > 全局的单例实例在第一次使用时构建
+
+## 3 在方法上加锁单例模式
+
+## 4 Double-check
+
+## 5 Static Inner Class
+
+## 6 Enum
+
+
 
 ## 参考文档
 * [https://blog.csdn.net/qq_34337272/article/details/80455972](https://blog.csdn.net/qq_34337272/article/details/80455972)

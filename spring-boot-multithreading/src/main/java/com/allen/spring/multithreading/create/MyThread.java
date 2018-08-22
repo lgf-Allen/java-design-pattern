@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.allen.spring.multithreading;
+package com.allen.spring.multithreading.create;
 
 /**
  * @author first

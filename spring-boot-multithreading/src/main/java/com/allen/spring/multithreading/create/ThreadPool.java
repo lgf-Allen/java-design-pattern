@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.allen.spring.multithreading;
+package com.allen.spring.multithreading.create;
 
 import java.util.ArrayList;
 import java.util.List;
