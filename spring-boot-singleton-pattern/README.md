@@ -104,11 +104,11 @@ public class DoubleCheckSingleton {
 
 	public static DoubleCheckSingleton getInstance() {
 		// 检查实例是否存在
-		if (singleton == null) {
+		if (singleton == null) <1>{
 			// 只有当第一次创建时才会进入
 			synchronized (DoubleCheckSingleton.class) {
 				// 进入同步代码块,如果还是null,创建实例
-				if (singleton == null) {
+				if (singleton == null)<2> {
 					singleton = new DoubleCheckSingleton();
 				}
 			}
@@ -119,6 +119,19 @@ public class DoubleCheckSingleton {
 }
 
 ```
+* <1> 处的if(singleton == null)是为了解决4中加锁代码的效率问题,只有instance为null的时候，才进入synchronized的代码段大大减少了几率
+* <2> 第二个if(instance==null),则是为了防止可能出现多个实例的情况
+* 原子操作:一个或多个操作要么都执行成功,要么都不执行,并且执行的过程不会被任何因素打断
+ * Java只保证了基本数据类型的变量和赋值操作才是原子 性的(在32位的JDK环境下,对64位数据的读取不是原子操作：long,double)
+* 指令重排:在不影响最终结果的情况下,就是计算机为了提高执行效率,编译器和处理器会做的一些优化,可能会对一些语句的执行顺序进行调整,即重新排序.如下代码,正常执行时,1-2-3-4;但是由于指令重排的原因,在不影响最终结果的情况下,实际的执行顺序可能是3-1-2-4或者1-3-2-4
+
+```
+int i; //①
+i = 2; //②
+int j = 5; //③
+int z = i + j; //④
+```
+
 ---
 
 ## 5 Static Inner Class
