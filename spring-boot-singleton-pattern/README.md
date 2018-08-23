@@ -1,6 +1,6 @@
 # Singleton Pattern
 ## 1 饥汉模式
-> 全局的单例实例在类装载时创建
+> 全局的单例实例在类装载时创建;典型的空间换时间,每次调用时,不用再去判断,直接调用;这种实现方式适合那些在初始化时就要用到单例的情况，这种方式简单粗暴，如果单例对象初始化非常快，而且占用内存非常小的时候这种方式是比较合适的，可以直接在应用启动时加载并初始化
 
 > 优点：线程安全
 
@@ -24,10 +24,33 @@ public class HungryMode {
 	
 }
 ```
+
+* 典型应用:Java Runtime
+
+```
+public class Runtime {
+    private static Runtime currentRuntime = new Runtime();
+
+    /**
+     * Returns the runtime object associated with the current Java application.
+     * Most of the methods of class <code>Runtime</code> are instance
+     * methods and must be invoked with respect to the current runtime object.
+     *
+     * @return  the <code>Runtime</code> object associated with the current
+     *          Java application.
+     */
+    public static Runtime getRuntime() {
+        return currentRuntime;
+    }
+
+    /** Don't let anyone else instantiate this class */
+    private Runtime() {}
+    //省略剩下代码
+```
 ---
 
 ## 2 懒汉模式
-> 全局的单例实例在第一次使用时构建
+> 全局的单例实例在第一次使用时构建,典型的时间换空间
 
 > 优点：在第一次使用时才实例化该对象,节省资源
 
@@ -85,13 +108,34 @@ public LazyMode getInstanceOptimize2() {
 }
 ```
 * [synchronized method VS synchronized block](https://www.cnblogs.com/signheart/p/0a8548258725cb8812768d2b3e1a2aef.html)
+
+* JDK InputMethodManager  sample
+
+```
+public final class InputMethodManager {
+
+    static InputMethodManager sInstance;
+    
+     /**
+     * Retrieve the global InputMethodManager instance, creating it if it
+     * doesn't already exist.
+     * @hide
+     */
+    public static InputMethodManager getInstance() {
+        synchronized (InputMethodManager.class) {
+            if (sInstance == null) {
+                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);
+                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);
+                sInstance = new InputMethodManager(service, Looper.getMainLooper());
+            }
+            return sInstance;
+        }
+    }
+}
+```
 ---
 
 ## 4 Double-check
-* 
-
-* JVM指令重排参考文档[]()
-
 ```
 public class DoubleCheckSingleton {
 
@@ -115,9 +159,7 @@ public class DoubleCheckSingleton {
 		}
 		return singleton;
 	}
-
 }
-
 ```
 * <1> 处的if(singleton == null)是为了解决4中加锁代码的效率问题,只有instance为null的时候，才进入synchronized的代码段大大减少了几率
 * <2> 第二个if(instance==null),则是为了防止可能出现多个实例的情况
@@ -126,10 +168,10 @@ public class DoubleCheckSingleton {
 * 指令重排:在不影响最终结果的情况下,就是计算机为了提高执行效率,编译器和处理器会做的一些优化,可能会对一些语句的执行顺序进行调整,即重新排序.如下代码,正常执行时,1-2-3-4;但是由于指令重排的原因,在不影响最终结果的情况下,实际的执行顺序可能是3-1-2-4或者1-3-2-4
 
 ```
-int i; //①
-i = 2; //②
-int j = 5; //③
-int z = i + j; //④
+int i; //1
+i = 2; //2
+int j = 5; //3
+int z = i + j; //4
 ```
 
 ---
@@ -155,6 +197,10 @@ public class Singleton {
 ---
 
 ## 6 Enum
+* 无偿地提供了序列化机制
+* 《Effective Java》作者推荐方式
+* 由JVM从根本上提供保障
+* 是更简洁、高效、安全的实现单例的方式
 
 ```
 public enum SingletonEnum {

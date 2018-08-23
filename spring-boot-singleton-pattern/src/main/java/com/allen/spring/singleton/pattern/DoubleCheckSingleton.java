@@ -2,8 +2,12 @@ package com.allen.spring.singleton.pattern;
 
 public class DoubleCheckSingleton {
 
-	// 禁止JVM指令重排
-	private static volatile DoubleCheckSingleton singleton = null;
+	/**
+	 * 禁止JVM指令重排;
+	 * 被volatile修饰的变量的值，将不会被本地线程缓存;
+	 * 所有对该变量的读写都是直接操作共享内存，从而确保多个线程能正确的处理该变量
+	 */
+    private static volatile DoubleCheckSingleton singleton = null;
 
 	private DoubleCheckSingleton() {
 		super();
