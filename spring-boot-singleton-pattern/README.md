@@ -107,9 +107,11 @@ public LazyMode getInstanceOptimize2() {
 	return mode;
 }
 ```
-* [synchronized method VS synchronized block](https://www.cnblogs.com/signheart/p/0a8548258725cb8812768d2b3e1a2aef.html)
+* 3.1 [synchronized method VS synchronized block](https://www.cnblogs.com/signheart/p/0a8548258725cb8812768d2b3e1a2aef.html)
 
-* JDK InputMethodManager  sample
+**Example**
+
+* 3.2 JDK InputMethodManager  sample
 
 ```
 public final class InputMethodManager {
@@ -131,6 +133,27 @@ public final class InputMethodManager {
             return sInstance;
         }
     }
+}
+```
+
+* 3.3 javax.security.auth.login.Configuration
+
+```
+public abstract class Configuration {
+    private static Configuration configuration;
+    //省略代码
+    public static Configuration getConfiguration() {
+
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null)
+            sm.checkPermission(new AuthPermission("getLoginConfiguration"));
+
+        synchronized (Configuration.class) {
+            //省略代码
+            return configuration;
+        }
+    }
+    //省略代码
 }
 ```
 ---
