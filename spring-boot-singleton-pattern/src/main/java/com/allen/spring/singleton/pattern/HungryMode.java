@@ -8,7 +8,7 @@ package com.allen.spring.singleton.pattern;
  * @author meng
  *
  */
-public class HungryMode {
+public final class HungryMode {
 
 	private static HungryMode hungryMode = new HungryMode();
 

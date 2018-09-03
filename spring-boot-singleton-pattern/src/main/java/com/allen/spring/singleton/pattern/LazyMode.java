@@ -7,7 +7,7 @@ package com.allen.spring.singleton.pattern;
  * @author meng
  *
  */
-public class LazyMode {
+public final class LazyMode {
 
 	private static LazyMode mode = null;
 

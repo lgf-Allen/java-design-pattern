@@ -1,6 +1,6 @@
 package com.allen.spring.singleton.pattern;
 
-public class DoubleCheckSingleton {
+public final class DoubleCheckSingleton {
 
 	/**
 	 * 禁止JVM指令重排;

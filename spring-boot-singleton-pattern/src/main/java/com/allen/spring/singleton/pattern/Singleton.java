@@ -1,6 +1,6 @@
 package com.allen.spring.singleton.pattern;
 
-public class Singleton {
+public final class Singleton {
 
 	//静态内部类
 	private static class SingletonHolder {
