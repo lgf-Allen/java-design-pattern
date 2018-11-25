@@ -1,6 +1,5 @@
 package com.allen.pattern.init;
 
-import com.sun.org.apache.bcel.internal.generic.FLOAD;
 
 /**
  * Created by meng on 2018/11/14.
